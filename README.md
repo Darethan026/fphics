@@ -44,24 +44,33 @@ fn main() -> Result<(), FphicsError> {
 
     Ok(())
 }
+
 ```
+
+### An example using the maths module to convert cm to m
+
 ```rust
+use fphics::maths::*;
+use fphics::errors::FphicsError;
 
+fn main() -> Result<(), FphicsError> {
+  let cm = 1_234.5; // Use any floating point value for the Centimetre value
 
+  let centimetre = Unit::new().from_metric_length(MetricLengthUnit::CentiMetre, cm); // Create an instance of the Unit struct with its unit as Centimetre
+  
+  let metre = centimetre.metric_to_metric(MetricLengthUnit::Metre)?.unwrap(); // Get the Metre value from the cm value
 
+  println!("{}cm is {:#?}m", cm, metre); // Print the result to stdout
 
-
-
-
-
+    Ok(())
+}
 
 ```
 
+**NOTE:** You can also run the examples located in the `examples/` directory.
 
 You can find the documentation on:
   - [fphics](https://crates.io/crates/fphics)
   - [docs](https://docs.rs/fphics)
-
-**NOTE:** You can also run the examples located in the `examples/` directory.
 
 Thank you for checking out **fphics**!
