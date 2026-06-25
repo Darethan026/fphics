@@ -34,7 +34,7 @@ fn main() -> Result<(), FphicsError> {
     .displacement(-2.5) // Set the displacement
     .initial_velocity(24.0) // Set the initial velocity
     .final_velocity(25.0) // Set the final velocity
-    .acceleration(-9.8) // Set the acceleration
+    // .acceleration(-9.8) // Set the acceleration (Optional, but not required since only 3 variables are required
     .calculate_time()?; // Calculate time and propagate any possible errors
     
     // Loop through the times vector holding the positive and negative values from the calculation
@@ -60,7 +60,7 @@ fn main() -> Result<(), FphicsError> {
   
   let metre = centimetre.metric_to_metric(MetricLengthUnit::Metre)?.unwrap(); // Get the Metre value from the cm value
 
-  println!("{}cm is {:#?}m", cm, metre); // Print the result to stdout
+  println!("{}cm is {}m", cm, metre); // Print the result to stdout
 
     Ok(())
 }
