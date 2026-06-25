@@ -1,0 +1,20 @@
+[package]
+name = "fphics"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "A pure zero-dependency rust physics and maths library that deals with mathematical conversions, and physics calculations using accurate, verified formulas - with zero estimations to ensure accuracy"
+repository = "https://github.com/Darethan026/fphics/"
+readme = "README.md"
+keywords = ["kinematics", "maths", "lightweight", "efficient", "accurate"]
+categories = ["science", "mathematics", "game-development", "simulation", "algorithms"]
+authors = ["Ethan <kigangadarell@gmail.com>"]
+
+[dependencies]
+
+[features]
+default = ["m_length", "mass", "i_length", "speed"]
+m_length = []
+i_length = []
+mass = []
+speed = []
