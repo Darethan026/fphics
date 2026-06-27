@@ -10,18 +10,18 @@ A lightweight mechanics, physics and maths solver written with zero dependencies
   - **ic** - Mechanics (Includes mechanics formulas, which of course are interchangeable with physics ones in most cases)
   - **s** - Mathematics (Includes maths formulas for percentages, unit conversions...etc)
 
-fphics is a lightweight library that can be used for accurate and robust physics calculations, mathematical conversions - including unit conversions, all while being lightweight and efficient.
-
 ## Features
 
 There's various mathematical and scientific operations possible with this library:
   - **Kinematics equations operations**
   - **Unit conversions**
-  - **Electricity equations operations**
-  - **Operations dealing with forces and motion**
 
-**NOTE:** This library does not use any dependencies and all operations dealt with involve accurate mathematics with verified equations to produce exact accurate values without estimations!
+**NOTE:** This library does not use any dependencies and all operations dealt with involve accurate mathematics with verified equations to efficiently produce exact accurate values without estimations!
 
+## Future features
+
+- **Electricity equations operations**
+- **Operations dealing with forces and motion**
 
 ### How to use? (Simple code example for calculating time)
 
