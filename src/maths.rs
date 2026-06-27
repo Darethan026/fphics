@@ -89,6 +89,28 @@ Mile to Metres = * 1609.344
 Foot to Kilometre = * 0.0003048
 Mile to Kilometre = * 1.609344
 
+
+=================
+Speed conversions
+=================
+
+cm/s to m/s = * 1.0 / 100.0
+
+m/s to cm/s = * 100
+m/s to km/s = * 1 / 1000
+m/s to km/h = * 3.6
+m/s to mph = * 1.0 / 0.44704
+
+km/s to m/s = * 1000
+km/s to km/h = * 3600
+km/s to mph = * 1.0 / 0.00044704
+
+km/h to m/s = * 1.0 / 3.6
+km/h to mph = * 1.0 / 1.609344
+
+mph to km/h = * 1.609344
+mph to m/s = * 0.44704
+
 */
 
 use crate::errors::FphicsError;
@@ -125,49 +147,49 @@ pub enum SpeedUnit {
 	CmPerSecond, // cm/s
 	MPerSecond, // m/s
 	KmPerSecond, // km/s
-	KPerHour, // km/h
-	MPerHour, // mph
+	KmPerHour, // km/h
+	MilesPerHour, // mph
 }
 
 /// Struct holding all enum units
 #[derive(Debug)]
 pub struct Unit {
-	metric_length_unit: (Option<MetricLengthUnit>, Option<f64>), // Struct filed holding the Metric length enum and its Option<f64> value
-	imperial_length_unit: (Option<ImperialUnitLength>, Option<f64>), // Struct filed holding the Imperial length enum and its Option<f64> value
-	mass_unit: (Option<MassUnit>, Option<f64>), // Struct filed holding the Mass enum and its Option<f64> value
-	speed_unit: (Option<SpeedUnit>, Option<f64>), // Struct filed holding the Speed enum and its Option<f64> value
+	metric_length_unit: (Option<MetricLengthUnit>, Option<f64>), // Struct field holding the Metric length enum and its Option<f64> value
+	imperial_length_unit: (Option<ImperialUnitLength>, Option<f64>), // Struct field holding the Imperial length enum and its Option<f64> value
+	mass_unit: (Option<MassUnit>, Option<f64>), // Struct field holding the Mass enum and its Option<f64> value
+	speed_unit: (Option<SpeedUnit>, Option<f64>), // Struct field holding the Speed enum and its Option<f64> value
 }
 
 // Mass conversion multiplier constants
 
-const G_TO_LB: f64 = 0.00220462262; // Multiplier for Grams to Pounds (lb)
+const G_TO_LB: f64 = 1.0 / 453.59237; // Multiplier for Grams to Pounds (lb)
 const LB_TO_G: f64 = 453.59237; // Multiplier for Pounds (lb) to Grams
 const LB_TO_KG: f64 = 0.45359237; // Multiplier for Pounds (lb) to Kilograms
-const KG_TO_LB: f64 = 2.20462262; // Multiplier for Kilograms to Pounds (lb)
+const KG_TO_LB: f64 = 1.0 / 0.45359237; // Multiplier for Kilograms to Pounds (lb)
 
 // Imperial to imperial conversion multiplier constants
 
-const IN_TO_YD: f64 = 0.0277777778; // Multiplier for Inches to Yards
-const IN_TO_FT: f64 = 0.0833333333; // Multiplier for Inches to Feet
-const IN_TO_MILE: f64 = 0.0000157828283; // Multiplier for Inches to Miles
-const YD_TO_MILE: f64 = 0.000568181818; // Multiplier for Yards to Miles
-const FT_TO_YD: f64 = 0.333333333; // Multiplier for Feet to Yards
-const FT_TO_MILE: f64 = 0.000189393939; // Multiplier for Feet to Miles
+const IN_TO_YD: f64 = 1.0 / 36.0; // Multiplier for Inches to Yards
+const IN_TO_FT: f64 = 1.0 / 12.0; // Multiplier for Inches to Feet
+const IN_TO_MILE: f64 = 1.0 / 63360.0; // Multiplier for Inches to Miles
+const YD_TO_MILE: f64 = 1.0 / 1760.0; // Multiplier for Yards to Miles
+const FT_TO_YD: f64 = 1.0 / 3.0; // Multiplier for Feet to Yards
+const FT_TO_MILE: f64 = 1.0 / 5280.0; // Multiplier for Feet to Miles
 
 // Metric to imperial conversion multiplier constants
 
-const MM_TO_IN: f64 = 0.0393700787; // Multiplier for Milimetres to Inches
-const CM_TO_IN: f64 = 0.393700787; // Multiplier for Centimetres to Inches
-const CM_TO_YD: f64 = 0.010936133; // Multiplier for Centimetres to Yards
-const METRES_TO_YD: f64 = 1.0936133; // Multiplier for Metres to Yards
-const METRES_TO_FT: f64 = 3.2808399; // Multiplier for Metres to Feet
-const METRES_TO_MILE: f64 = 0.000621371192; // Multiplier for Metres to Miles
-const KM_TO_FT: f64 = 3280.8399; // Multiplier for Kilometres to Feet
-const KM_TO_MILE: f64 = 0.621371192; // Multiplier for Kilometres to Miles
+const MM_TO_IN: f64 = 1.0 / 25.4; // Multiplier for Millimetres to Inches
+const CM_TO_IN: f64 = 1.0 / 2.54; // Multiplier for Centimetres to Inches
+const CM_TO_YD: f64 = 1.0 / 91.44; // Multiplier for Centimetres to Yards
+const METRES_TO_YD: f64 = 1.0 / 0.9144; // Multiplier for Metres to Yards
+const METRES_TO_FT: f64 = 1.0 / 0.3048; // Multiplier for Metres to Feet
+const METRES_TO_MILE: f64 = 1.0 / 1609.344; // Multiplier for Metres to Miles
+const KM_TO_FT: f64 = 1000.0 / 0.3048; // Multiplier for Kilometres to Feet
+const KM_TO_MILE: f64 = 1.0 / 1.609344; // Multiplier for Kilometres to Miles
 
 // Imperial to metric conversion multiplier constants
 
-const IN_TO_MM: f64 = 25.4; // Multiplier for Inches to Milimetres
+const IN_TO_MM: f64 = 25.4; // Multiplier for Inches to Millimetres
 const IN_TO_CM: f64 = 2.54; // Multiplier for Inches to Centimetres
 const YD_TO_CM: f64 = 91.44; // Multiplier for Yards to Centimetres
 const YD_TO_METRES: f64 = 0.9144; // Multiplier for Yards to Metres
@@ -175,6 +197,18 @@ const FT_TO_METRES: f64 = 0.3048; // Multiplier for Feet to Metres
 const MILES_TO_METRES: f64 = 1609.344; // Multiplier for Miles to Metres
 const FT_TO_KM: f64 = 0.0003048; // Multiplier for Feet to Kilometres
 const MILES_TO_KM: f64 = 1.609344; // Multiplier for Miles to Kilometres
+
+// Speed conversion multiplier constants 
+
+const CENTIMETRES_TO_METRES_PER_S: f64 = 1.0 / 100.0; // Multiplier for cm/s to m/s
+const METRES_TO_KM_PER_S: f64 = 1.0 / 1000.0; // Multiplier for m/s to km/s
+const METRES_PER_SECOND_TO_KPH: f64 = 3.6; // Multiplier for m/s to km/h
+const METRES_PER_SECOND_TO_MPH: f64 = 1.0 / 0.44704; // Multiplier for m/s to mph
+const KM_PER_SECOND_TO_MPH: f64 = 1.0 / 0.00044704; // Multiplier for km/s to mph
+const KPH_TO_METRES_PER_SECOND: f64 = 1.0 / 3.6; // Multiplier for km/h to m/s
+const KPH_TO_MPH: f64 = 1.0 / 1.609344; // Multiplier for km/h to mph
+const MPH_TO_KPH: f64 = 1.609344; // Multiplier for mph to km/h
+const MPH_TO_METRES_PER_SECOND: f64 = 0.44704; // Multiplier for mph to m/s
 
 impl Unit {
 	/// Function to create a new instance of the `Unit` struct with all its fields set to none
@@ -886,19 +920,209 @@ impl Unit {
 		}
 	}
 
+	/// Function to convert between the available speed units
+	/// # Error info
+	/// - There's no support for conversions between cm/s to units other than m/s, km/s to cm/s,
+	/// km/h to cm/s, mph to cm/s or km/s.
+	/// - If any unsupported conversions are attempted, the error `ConversionNotSupported` will be returned.
+	pub fn to_speed(&self, unit: SpeedUnit) -> Result<f64, FphicsError> {
+		match unit {
+			SpeedUnit::CmPerSecond => {
+				match &self.speed_unit.0 {
+					Some(stored_unit) => {
+						match stored_unit {
+							SpeedUnit::CmPerSecond => {
+								match self.speed_unit.1 {
+									Some(v) => Ok(v),
 
+									None => Err(FphicsError::MissingVal),
+								}
+							}
 
+							SpeedUnit::MPerSecond => {
+								match self.speed_unit.1 {
+									Some(v) => Ok(v * 100.0),
 
+									None => Err(FphicsError::MissingVal),
+								}
+							}
 
+							_ => Err(FphicsError::ConversionNotSupported)
 
+						}
+					}
 
+					None => Err(FphicsError::MissingSpeedUnit)
+				}
+			}
 
+			SpeedUnit::MPerSecond => {
+				match &self.speed_unit.0 {
+					Some(stored_unit) => {
+						match stored_unit {
+							SpeedUnit::CmPerSecond => {
+								match self.speed_unit.1 {
+									Some(v) => Ok(v * CENTIMETRES_TO_METRES_PER_S),
 
+									None => Err(FphicsError::MissingVal),
+								}
+							}
 
+							SpeedUnit::MPerSecond => {
+								match self.speed_unit.1 {
+									Some(v) => Ok(v),
 
+									None => Err(FphicsError::MissingVal),
+								}
+							}
 
+							SpeedUnit::KmPerSecond => {
+								match self.speed_unit.1 {
+									Some(v) => Ok(v * 1000.0),
+
+									None => Err(FphicsError::MissingVal),
+								}
+							}
+
+							SpeedUnit::KmPerHour => {
+								match self.speed_unit.1 {
+									Some(v) => Ok(v * KPH_TO_METRES_PER_SECOND),
+
+									None => Err(FphicsError::MissingVal),
+								}
+							}
+
+							SpeedUnit::MilesPerHour => {
+								match self.speed_unit.1 {
+									Some(v) => Ok(v * MPH_TO_METRES_PER_SECOND),
+
+									None => Err(FphicsError::MissingVal),
+								}
+							}
+						}
+					}
+
+					None => Err(FphicsError::MissingSpeedUnit)
+				}
+			}
+
+			SpeedUnit::KmPerSecond => {
+				match &self.speed_unit.0 {
+					Some(stored_unit) => {
+						match stored_unit {
+							SpeedUnit::MPerSecond => {
+								match self.speed_unit.1 {
+									Some(v) => Ok(v * METRES_TO_KM_PER_S),
+
+									None => Err(FphicsError::MissingVal),
+								}
+							}
+
+							SpeedUnit::KmPerSecond => {
+								match self.speed_unit.1 {
+									Some(v) => Ok(v),
+
+									None => Err(FphicsError::MissingVal),
+								}
+							}
+
+							_ => Err(FphicsError::ConversionNotSupported)
+
+						}
+					}
+
+					None => Err(FphicsError::MissingSpeedUnit)
+				}
+			}
+
+			SpeedUnit::KmPerHour => {
+				match &self.speed_unit.0 {
+					Some(stored_unit) => {
+						match stored_unit {
+							SpeedUnit::MPerSecond => {
+								match self.speed_unit.1 {
+									Some(v) => Ok(v * METRES_PER_SECOND_TO_KPH),
+
+									None => Err(FphicsError::MissingVal),
+								}
+							}
+
+							SpeedUnit::KmPerSecond => {
+								match self.speed_unit.1 {
+									Some(v) => Ok(v * 3600.0),
+
+									None => Err(FphicsError::MissingVal),
+								}
+							}
+
+							SpeedUnit::MilesPerHour => {
+								match self.speed_unit.1 {
+									Some(v) => Ok(v * MPH_TO_KPH),
+
+									None => Err(FphicsError::MissingVal),
+								}
+							}
+
+							_ => Err(FphicsError::ConversionNotSupported)
+
+						}
+					}
+
+					None => Err(FphicsError::MissingSpeedUnit)
+				}
+			}
+
+			SpeedUnit::MilesPerHour => {
+				match &self.speed_unit.0 {
+					Some(stored_unit) => {
+						match stored_unit {
+							SpeedUnit::MPerSecond => {
+								match self.speed_unit.1 {
+									Some(v) => Ok(v * METRES_PER_SECOND_TO_MPH),
+
+									None => Err(FphicsError::MissingVal),
+								}
+							}
+
+							SpeedUnit::KmPerSecond => {
+								match self.speed_unit.1 {
+									Some(v) => Ok(v * KM_PER_SECOND_TO_MPH),
+
+									None => Err(FphicsError::MissingVal),
+								}
+							}
+
+							SpeedUnit::MilesPerHour => {
+								match self.speed_unit.1 {
+									Some(v) => Ok(v),
+
+									None => Err(FphicsError::MissingVal),
+								}
+							}
+
+							SpeedUnit::KmPerHour => {
+								match self.speed_unit.1 {
+									Some(v) => Ok(v * KPH_TO_MPH),
+
+									None => Err(FphicsError::MissingVal),
+								}
+							}
+
+							_ => Err(FphicsError::ConversionNotSupported)
+
+						}
+					}
+
+					None => Err(FphicsError::MissingSpeedUnit)
+				}
+			}
+		}
+	}
 
 	/// Function to convert between the available mass units
+	/// # Error info
+	/// - If no unit is present, the error `MissingMassUnit` will be returned. If there's no value for the unit
+	/// the error `MissingVal` will be returned.
 	pub fn to_mass(&self, unit: MassUnit) -> Result<f64, FphicsError> {
 		// Match for the user's unit
 		match unit {
