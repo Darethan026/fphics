@@ -40,34 +40,33 @@ t = -vt + or - sqrt(vt^2 - (4 * -0.5a * -s)) / 2 * (-0.5a)
 t = (v - u) / a
 t = 2s / (u + v)
 
-
 */
 
 use crate::errors;
 
 /// Constant for the speed of light
-const SPEED_OF_LIGHT: f32 = 3.0 * 100_000_000.0;
+const SPEED_OF_LIGHT: f64 = 3.0 * 100_000_000.0;
 /// Value for acceleration due to gravity on earth in m/s^2
-const GRAVITY_ON_EARTH: f32 = 9.81;
+const GRAVITY_ON_EARTH: f64 = 9.81;
 /// Value for acceleration due to gravity on the moon in m/s^2
-const GRAVITY_ON_MOON: f32 = 1.625;
+const GRAVITY_ON_MOON: f64 = 1.625;
 
 /// Struct containing the letters symbolising the vector/scalar definitions in 1D
 pub struct SuvatOps1D {
-	s: Option<f32>, // Displacement in metres (m)
-	u: Option<f32>, // Initial velocity in metres per second (m/s)
-	v: Option<f32>, // Final velocity in metres per second (m/s)
-	a: Option<f32>, // Acceleration in metres per second squared (m/s^2)
-	t: Option<f32>, // Time in seconds (s)
+	s: Option<f64>, // Displacement in metres (m)
+	u: Option<f64>, // Initial velocity in metres per second (m/s)
+	v: Option<f64>, // Final velocity in metres per second (m/s)
+	a: Option<f64>, // Acceleration in metres per second squared (m/s^2)
+	t: Option<f64>, // Time in seconds (s)
 }
 
 /// Struct containing symbols for 2D kinematics
 pub struct SuvatOps2D {
-	s: (Option<f32>, Option<f32>), // Displacement in metres (m)
-	u: (Option<f32>, Option<f32>), // Initial velocity in metres per second (m/s)
-	v: (Option<f32>, Option<f32>), // Final velocity in metres per second (m/s)
-	a: (Option<f32>, Option<f32>), // Acceleration in metres per second squared (m/s^2)
-	t: Option<f32>, // Time in seconds (s)
+	s: (Option<f64>, Option<f64>), // Displacement in metres (m)
+	u: (Option<f64>, Option<f64>), // Initial velocity in metres per second (m/s)
+	v: (Option<f64>, Option<f64>), // Final velocity in metres per second (m/s)
+	a: (Option<f64>, Option<f64>), // Acceleration in metres per second squared (m/s^2)
+	t: Option<f64>, // Time in seconds (s)
 }
 
 /// Module containing operations for suvat equations
@@ -91,35 +90,35 @@ pub mod suvat {
 		}
 
 		/// Method to equate the value of s
-		pub fn displacement(mut self, val: f32) -> Self {
+		pub fn displacement(mut self, val: f64) -> Self {
 			self.s = Some(val); // Equate the value of s in the struct to the val used by the user
 
 			self
 		}
 
 		/// Method to equate the value of u
-		pub fn initial_velocity(mut self, val: f32) -> Self {
+		pub fn initial_velocity(mut self, val: f64) -> Self {
 			self.u = Some(val); // Equate the value of u in the struct to the val used by the user
 
 			self
 		}
 
 		/// Method to equate the value of v
-		pub fn final_velocity(mut self, val: f32) -> Self {
+		pub fn final_velocity(mut self, val: f64) -> Self {
 			self.v = Some(val); // Equate the value of v in the struct to the val used by the user
 
 			self
 		}
 
 		/// Method to equate the value of a
-		pub fn acceleration(mut self, val: f32) -> Self {
+		pub fn acceleration(mut self, val: f64) -> Self {
 			self.a = Some(val); // Equate the value of a in the struct to the val used by the user
 
 			self
 		}
 
 		/// Method to equate the value of t
-		pub fn time(mut self, val: f32) -> Self {
+		pub fn time(mut self, val: f64) -> Self {
 			self.t = Some(val); // Equate the value of t in the struct to the val used by the user
 
 			self
@@ -129,7 +128,7 @@ pub mod suvat {
 		/// # Error info
 		/// - If there's a possibility of division by zero, `FphicsError::DivisionByZero` is returned
 		/// - If there's less than 3 parameters, `FphicsError::IncompleteData` is returned
-		pub fn calculate_displacement(&self) -> Result<f32, errors::FphicsError> {
+		pub fn calculate_displacement(&self) -> Result<f64, errors::FphicsError> {
 			match (self.u, self.v, self.a, self.t) {
 				// When only u, a, and t are present
 				// s = ut + (1/2 * a * t^2)
@@ -167,7 +166,7 @@ pub mod suvat {
 		/// # Error info
 		/// - If there's a possibility of division by zero, `FphicsError::DivisionByZero` is returned
 		/// - If there's less than 3 parameters, `FphicsError::IncompleteData` is returned
-		pub fn calculate_initial_velocity(&self) -> Result<f32, errors::FphicsError> {
+		pub fn calculate_initial_velocity(&self) -> Result<f64, errors::FphicsError> {
 			match (self.s, self.v, self.a, self.t) {
 				// When only s, a and t are present
 				// u = (s/t) - (1/2 * a * t)
@@ -213,7 +212,7 @@ pub mod suvat {
 		/// # Error info
 		/// - If there's a possibility of division by zero, `FphicsError::DivisionByZero` is returned
 		/// - If there's less than 3 parameters, `FphicsError::IncompleteData` is returned
-		pub fn calculate_final_velocity(&self) -> Result<f32, errors::FphicsError> {
+		pub fn calculate_final_velocity(&self) -> Result<f64, errors::FphicsError> {
 			match (self.s, self.u, self.a, self.t) {
 				// When only u, a, and s are present
 				// v^2 = u^2 + 2as
@@ -261,7 +260,7 @@ pub mod suvat {
 		/// # Error info
 		/// - If there's a possibility of division by zero, `FphicsError::DivisionByZero` is returned
 		/// - If there's less than 3 parameters, `FphicsError::IncompleteData` is returned
-		pub fn calculate_acceleration(&self) -> Result<f32, errors::FphicsError> {
+		pub fn calculate_acceleration(&self) -> Result<f64, errors::FphicsError> {
 			match (self.s, self.u, self.v, self.t) {
 				// When we have s, u and v
 				// a = (v^2 - u^2) / 2s
@@ -311,7 +310,7 @@ pub mod suvat {
 		/// # Error info
 		/// - If there's a possibility of division by zero, `FphicsError::DivisionByZero` is returned
 		/// - If there's less than 3 parameters, `FphicsError::IncompleteData` is returned
-		pub fn calculate_time(&self) -> Result<Vec<f32>, errors::FphicsError> {
+		pub fn calculate_time(&self) -> Result<Vec<f64>, errors::FphicsError> {
 			let mut vals = Vec::with_capacity(2);
 
 			match (self.s, self.u, self.v, self.a) {
@@ -389,7 +388,7 @@ pub mod suvat {
 		}
 
 		/// Method to equate the value of s
-		pub fn displacement(mut self, val: (f32, f32)) -> Self {
+		pub fn displacement(mut self, val: (f64, f64)) -> Self {
 			self.s.0 = Some(val.0);
 			self.s.1 = Some(val.1);
 
@@ -397,7 +396,7 @@ pub mod suvat {
 		}
 
 		/// Method to equate the value of u
-		pub fn initial_velocity(mut self, val: (f32, f32)) -> Self {
+		pub fn initial_velocity(mut self, val: (f64, f64)) -> Self {
 			self.u.0 = Some(val.0);
 			self.u.1 = Some(val.1);
 
@@ -405,7 +404,7 @@ pub mod suvat {
 		}
 
 		/// Method to equate the value of v
-		pub fn final_velocity(mut self, val: (f32, f32)) -> Self {
+		pub fn final_velocity(mut self, val: (f64, f64)) -> Self {
 			self.v.0 = Some(val.0);
 			self.v.1 = Some(val.1);
 
@@ -413,7 +412,7 @@ pub mod suvat {
 		}
 
 		/// Method to equate the value of a
-		pub fn acceleration(mut self, val: (f32, f32)) -> Self {
+		pub fn acceleration(mut self, val: (f64, f64)) -> Self {
 			self.a.0 = Some(val.0);
 			self.a.1 = Some(val.1);
 
@@ -421,7 +420,7 @@ pub mod suvat {
 		}
 
 		/// Method to equate the value of t
-		pub fn time(mut self, val: f32) -> Self {
+		pub fn time(mut self, val: f64) -> Self {
 			self.t = Some(val);
 
 			self
@@ -431,7 +430,7 @@ pub mod suvat {
 		/// # Error info
 		/// - If there's a possibility of division by zero, `FphicsError::DivisionByZero` is returned
 		/// - If there's less than 3 parameters, `FphicsError::IncompleteData` is returned
-		pub fn calculate_displacement(&self) -> Result<(f32, f32), errors::FphicsError> {
+		pub fn calculate_displacement(&self) -> Result<(f64, f64), errors::FphicsError> {
 			let u = self.u;
 			let v = self.v;
 			let a = self.a;
@@ -462,7 +461,7 @@ pub mod suvat {
 		/// # Error info
 		/// - If there's a possibility of division by zero, `FphicsError::DivisionByZero` is returned
 		/// - If there's less than 3 parameters, `FphicsError::IncompleteData` is returned
-		pub fn calculate_initial_velocity(&self) -> Result<(f32, f32), FphicsError> {
+		pub fn calculate_initial_velocity(&self) -> Result<(f64, f64), FphicsError> {
 			let s = self.s;
 			let v = self.v;
 			let a = self.a;
@@ -493,7 +492,7 @@ pub mod suvat {
 		/// # Error info
 		/// - If there's a possibility of division by zero, `FphicsError::DivisionByZero` is returned
 		/// - If there's less than 3 parameters, `FphicsError::IncompleteData` is returned
-		pub fn calculate_final_velocity(&self) -> Result<(f32, f32), FphicsError> {
+		pub fn calculate_final_velocity(&self) -> Result<(f64, f64), FphicsError> {
 			let s = self.s;
 			let u = self.u;
 			let a = self.a;
@@ -524,7 +523,7 @@ pub mod suvat {
 		/// # Error info
 		/// - If there's a possibility of division by zero, `FphicsError::DivisionByZero` is returned
 		/// - If there's less than 3 parameters, `FphicsError::IncompleteData` is returned
-		pub fn calculate_acceleration(&self) -> Result<(f32, f32), FphicsError> {
+		pub fn calculate_acceleration(&self) -> Result<(f64, f64), FphicsError> {
 			let s = self.s;
 			let u = self.u;
 			let v = self.v;
@@ -555,8 +554,8 @@ pub mod suvat {
 		/// # INFO (PLEASE READ)
 		/// - If there's a possibility of division by zero, `FphicsError::DivisionByZero` is returned
 		/// - If there's less than 3 parameters, `FphicsError::IncompleteData` is returned
-		/// - This method returns a tuple of two f32 vectors, each holding a positive and negative time value from the time calculation
-		pub fn calculate_time(&self) -> Result<(Vec<f32>, Vec<f32>), FphicsError> {
+		/// - This method returns a tuple of two f64 vectors, each holding a positive and negative time value from the time calculation
+		pub fn calculate_time(&self) -> Result<(Vec<f64>, Vec<f64>), FphicsError> {
 			let s = self.s;
 			let u = self.u;
 			let v = self.v;
@@ -585,6 +584,11 @@ pub mod suvat {
 	}
 }
 
-pub mod materials {}
-pub mod dynamics {}
-pub mod electricity {}
+/// Future implementation
+mod materials {}
+
+/// Future implementation
+mod dynamics {}
+
+/// Future implementation
+mod electricity {}
