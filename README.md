@@ -33,8 +33,8 @@ fn main() -> Result<(), FphicsError> {
     let times = SuvatOps1D::new()
     .displacement(-2.5) // Set the displacement
     .initial_velocity(24.0) // Set the initial velocity
-    .final_velocity(25.0) // Set the final velocity
-    // .acceleration(-9.8) // Set the acceleration (Optional, but not required since only 3 variables are required
+    //.final_velocity(25.0) // Set the final velocity (Optional, but not required since only 3 variables are required
+    .acceleration(-9.8) // Set the acceleration
     .calculate_time()?; // Calculate time and propagate any possible errors
     
     // Loop through the times vector holding the positive and negative values from the calculation
@@ -58,7 +58,7 @@ fn main() -> Result<(), FphicsError> {
 
   let centimetre = Unit::new().from_metric_length(MetricLengthUnit::CentiMetre, cm); // Create an instance of the Unit struct with its unit as Centimetre
   
-  let metre = centimetre.metric_to_metric(MetricLengthUnit::Metre)?.unwrap(); // Get the Metre value from the cm value
+  let metre = centimetre.metric_to_metric(MetricLengthUnit::Metre)?; // Get the Metre value from the cm value
 
   println!("{}cm is {}m", cm, metre); // Print the result to stdout
 
