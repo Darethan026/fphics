@@ -12,9 +12,3 @@ authors = ["Ethan <kigangadarell@gmail.com>"]
 
 [dependencies]
 
-[features]
-default = ["m_length", "mass", "i_length", "speed"]
-m_length = []
-i_length = []
-mass = []
-speed = []
