@@ -322,6 +322,10 @@ pub mod suvat {
 					if discriminant < 0.0 {
 						Err(errors::FphicsError::NegativeSquareRoot)
 					} else {
+						if a_val == 0.0 {
+							return Err(errors::FphicsError::DivisionByZero);
+						}
+
 						vals.push(((- u_val) + discriminant.sqrt()) / a_val);
 						vals.push(((- u_val) - discriminant.sqrt()) / a_val);
 
@@ -554,15 +558,15 @@ pub mod suvat {
 		/// # INFO (PLEASE READ)
 		/// - If there's a possibility of division by zero, `FphicsError::DivisionByZero` is returned
 		/// - If there's less than 3 parameters, `FphicsError::IncompleteData` is returned
-		/// - This method returns a tuple of two f64 vectors, each holding a positive and negative time value from the time calculation
+		/// - This method returns a vector, holding a positive and negative time value from the time calculation
 		pub fn calculate_time(&self) -> Result<(Vec<f64>, Vec<f64>), FphicsError> {
 			let s = self.s;
 			let u = self.u;
 			let v = self.v;
 			let a = self.a;
 
-			// Create an instance of the 1D struct to fill the i components
-			let i_component = SuvatOps1D {
+			// Create an instance of the 1D struct for time
+			let time_i = SuvatOps1D {
 				s: s.0,
 				u: u.0,
 				v: v.0,
@@ -570,8 +574,7 @@ pub mod suvat {
 				t: None,
 			}.calculate_time()?;
 
-			// Create an instance of the 1D struct to fill the j components
-			let j_component = SuvatOps1D {
+			let time_j = SuvatOps1D {
 				s: s.1,
 				u: u.1,
 				v: v.1,
@@ -579,7 +582,7 @@ pub mod suvat {
 				t: None,
 			}.calculate_time()?;
 
-			Ok((i_component, j_component))
+			Ok((time_i, time_j))
 		}
 	}
 }
