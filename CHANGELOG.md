@@ -2,6 +2,16 @@
 
 Changes in **fphics**
 
+## [Version 0.2.0] - 2026-06-27
+
+## Changed
+
+- Time calculation in `SuvatOps1D` was fixed to give accurate time values
+
+- Added check for acceleration to return a `DivisionByZero` error if acceleration is zero for either axis in `SuvatOps2D`
+
+
+
 ## [Version 0.1.0] - 2026-06-27
 
 ### Added
