@@ -6,7 +6,7 @@ fn main() -> Result<(), FphicsError> {
 
 	let centimetre = Unit::new().from_metric_length(MetricLengthUnit::CentiMetre, cm);
 	
-	let metre = centimetre.metric_to_metric(MetricLengthUnit::Metre)?.unwrap();
+	let metre = centimetre.metric_to_metric(MetricLengthUnit::Metre)?;
 
 	println!("{}cm is {}m", cm, metre);
 
