@@ -1,6 +1,6 @@
 [package]
 name = "fphics"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 license = "MIT"
 description = "A pure zero-dependency rust physics and maths library that deals with mathematical conversions, and physics calculations using accurate, verified formulas - with zero estimations to ensure accuracy"
